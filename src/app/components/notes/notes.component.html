@@ -1,1 +1,65 @@
-<p>notes works!</p>
+<h2 class="text-2xl font-semibold mb-4">📝 Notas</h2>
+
+<!-- Botón para mostrar u ocultar formulario -->
+<button
+  class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded shadow mb-4"
+  (click)="showForm = !showForm">
+  {{ showForm ? 'Cancelar' : '➕ Crear Nota' }}
+</button>
+
+<!-- Formulario -->
+<div *ngIf="showForm" class="mb-6">
+  <label for="title" class="block font-medium">Título:</label>
+  <input id="title" type="text" [(ngModel)]="note.title"
+    class="border border-gray-300 rounded px-3 py-2 w-full mb-3" placeholder="Título" />
+
+  <label for="content" class="block font-medium">Contenido:</label>
+  <textarea id="content" [(ngModel)]="note.content"
+    class="border border-gray-300 rounded px-3 py-2 w-full mb-3" placeholder="Escribe tu nota..."></textarea>
+
+  <button
+    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded shadow mr-2"
+    (click)="saveNote()">
+    {{ editing ? 'Actualizar Nota' : 'Guardar Nota' }}
+  </button>
+
+  <button
+    class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded shadow"
+    *ngIf="editing"
+    (click)="resetForm()">
+    Cancelar Edición
+  </button>
+</div>
+<div *ngIf="mensaje" class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4 shadow">
+  {{ mensaje }}
+</div>
+<!-- Lista de notas -->
+<h3 class="text-xl font-semibold mt-6 mb-2">📋 Lista de notas</h3>
+
+<div *ngFor="let note of notes" class="mb-4 p-4 border rounded shadow-sm bg-white">
+  <h3 class="text-lg font-semibold">{{ note.title }}</h3>
+  <p class="text-gray-700">{{ note.content }}</p>
+
+  <button
+    class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded mr-2 mt-2"
+    (click)="editNote(note)">
+    ✏️ Editar
+  </button>
+
+  <button
+    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded mr-2 mt-2"
+    (click)="deleteNote(note._id!)">
+    🗑️ Eliminar
+  </button>
+
+  <button
+    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded mt-2"
+    (click)="downloadNoteAsPDF(note)">
+    📥 Descargar PDF
+  </button>
+</div>
+
+<!-- Estadísticas -->
+<h3 class="text-xl font-medium mt-8">📊 Estadísticas</h3>
+<p class="text-gray-600">Total de notas: <span class="font-bold">{{ totalNotes }}</span></p>
+

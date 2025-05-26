@@ -1,31 +1,41 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface Note {
+  _id?: string;
+  title: string;
+  content: string;
+  userId: string;
+}
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class NoteService {
+  private apiUrl = 'http://localhost:3000/api/notes';
 
-  apiUri = '/api/notes';
+  constructor(private http: HttpClient) {}
 
-  httpOptions = new HttpHeaders().set('Content-Type', 'application/json');
+  getNotes(): Observable<Note[]> {
+    return this.http.get<Note[]>(this.apiUrl);
+  }
 
+  getNoteById(id: string): Observable<Note> {
+    return this.http.get<Note>(`${this.apiUrl}/${id}`);
+  }
 
-  constructor(private http: HttpClient) { }
+  createNote(note: Note): Observable<Note> {
+    return this.http.post<Note>(this.apiUrl, note);
+  }
 
-  getAllNotesData(): Observable<any> {
-  return this.http.get<any>(this.apiUri);
-}
-newNote(data: any): Observable<any> {
-  return this.http.post<any>(
-    this.apiUri,
-    data,
-    { headers: this.httpOptions }
-  );
-}
+  updateNote(id: string, note: Note): Observable<Note> {
+    return this.http.put<Note>(`${this.apiUrl}/${id}`, note);
+  }
 
+  deleteNote(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 
-
+  getStatistics(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/statistics`);
+  }
 }
