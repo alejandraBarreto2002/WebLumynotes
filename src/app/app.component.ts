@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],  // corregido aquí
+  imports: [MainLayoutComponent], // solo si usas standalone components
+  standalone: true // agrega esto si usas standalone components
 })
 export class AppComponent {
   title = 'weblumynotes';

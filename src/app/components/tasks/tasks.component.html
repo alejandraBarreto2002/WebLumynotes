@@ -1,0 +1,32 @@
+<div class="max-w-3xl mx-auto px-4 mt-4">
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div>
+<div class="max-w-3xl mx-auto px-4">
+    <div class="flex items-center justify-between my-6">
+        <h2 class="text-2xl font-bold">📝 Mis tareas</h2> <button
+            class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded shadow" (click)="showForm = !showForm"> {{
+            showForm ? 'Cancelar' : '➕ Nueva tarea' }} </button>
+    </div> <!-- Formulario -->
+    <div *ngIf="showForm" class="bg-white border p-4 rounded shadow mb-6 space-y-2"> <input [(ngModel)]="newTask.title"
+            name="title" placeholder="Título" class="w-full border rounded px-3 py-2" /> <textarea
+            [(ngModel)]="newTask.description" name="description" placeholder="Descripción"
+            class="w-full border rounded px-3 py-2"></textarea> <input [(ngModel)]="newTask.dueDate" name="dueDate"
+            type="date" class="w-full border rounded px-3 py-2" /> <button (click)="addTask()"
+            class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded shadow">Guardar</button> </div>
+    <!-- Lista de tareas -->
+    <div class="space-y-4">
+        <div *ngFor="let task of tasks" class="bg-white border p-4 rounded shadow flex justify-between items-start">
+            <div class="flex items-start gap-3"> <input type="checkbox" [checked]="task.completed"
+                    (change)="completeTask(task)" />
+                <div>
+                    <h3 class="font-semibold text-lg" [ngClass]="{ 'line-through text-gray-400': task.completed }"> {{
+                        task.title }} </h3>
+                    <p class="text-sm text-gray-600">{{ task.description }}</p>
+                    <p class="text-xs text-gray-500 mt-1">Fecha límite: {{ task.dueDate | date:'shortDate' }}</p>
+                </div>
+            </div> <button class="text-red-500 hover:text-red-700" (click)="deleteTask(task)">🗑</button>
+        </div>
+    </div> <!-- Exportar PDF -->
+    <div class="mt-8 text-center"> <button class="text-sm bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded"
+            (click)="downloadPdf()"> 📄 Descargar PDF </button> </div>
+</div>
