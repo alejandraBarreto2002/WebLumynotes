@@ -1,0 +1,58 @@
+<div class="container mx-auto p-8 bg-white/90 rounded-2xl shadow-lg max-w-md mt-10">
+  <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Crea tu cuenta</h2>
+  <p class="text-gray-600 mb-6 text-center">Empieza a escribir tus ideas</p>
+
+  <form [formGroup]="form" (ngSubmit)="register()" class="space-y-4">
+    <div>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        placeholder="Nombre completo"
+        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400"
+      />
+    </div>
+    <div>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        placeholder="Correo electrónico"
+        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400"
+      />
+    </div>
+    <div>
+      <input
+        type="password"
+        id="password"
+        formControlName="password"
+        placeholder="Contraseña"
+        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400"
+      />
+    </div>
+    <button
+      type="submit"
+      [disabled]="form.invalid"
+      class="w-full bg-yellow-400 text-white font-semibold p-3 rounded-xl hover:bg-yellow-500 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
+    >
+      Registrarme
+    </button>
+  </form>
+
+  <div class="my-4 flex items-center justify-center gap-2">
+    <hr class="flex-1 border-t border-gray-300" />
+    <span class="text-gray-500 text-sm">o</span>
+    <hr class="flex-1 border-t border-gray-300" />
+  </div>
+
+  <button class="w-full flex items-center justify-center gap-2 border border-gray-300 p-3 rounded-xl hover:bg-gray-100 transition">
+    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5" />
+    <span class="text-gray-700 font-medium">Continúa con Google</span>
+  </button>
+
+  <p class="text-gray-600 mt-6 text-center">
+    ¿Ya tienes cuenta?
+    <a [routerLink]="['/login']" class="text-yellow-500 font-medium hover:underline"
+     style="cursor: pointer;">Inicia sesión</a>
+  </p>
+</div>

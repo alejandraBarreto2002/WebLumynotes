@@ -1,19 +1,33 @@
-<div class="flex h-screen"> <!-- Sidebar -->
-    <aside class="w-64 bg-pink-100 p-4 flex flex-col gap-2">
-        <h1 class="text-xl font-bold mb-4">Notas 🌷</h1>
-        <nav class="flex flex-col gap-2"> <a routerLink="/home" class="hover:bg-pink-200 rounded p-2">🏠 Home</a>
-            <a routerLink="/home" routerLinkActive="bg-white font-bold" class="rounded p-2 hover:bg-pink-200"
-                [routerLinkActiveOptions]="{ exact: true }">🏠 Home</a>
+<div class="flex min-h-screen bg-rose-50">
+  <!-- Sidebar -->
+  <aside *ngIf="showSidebar" class="w-64 bg-rose-100 p-6 shadow-lg flex flex-col gap-2">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Lumynotes 🌸</h1>
+    <nav class="flex flex-col gap-2">
+      <a routerLink="/perfil" routerLinkActive="bg-white font-bold" [routerLinkActiveOptions]="{ exact: false }"
+         class="block p-2 text-gray-700 rounded-lg hover:bg-rose-200 transition-colors">
+        👤 Perfil
+      </a>
+      <a routerLink="/home" routerLinkActive="bg-white font-bold" [routerLinkActiveOptions]="{ exact: false }"
+         class="block p-2 text-gray-700 rounded-lg hover:bg-rose-200 transition-colors">
+        🏠 Home
+      </a>
+      <a routerLink="/notes" routerLinkActive="bg-white font-bold" [routerLinkActiveOptions]="{ exact: false }"
+         class="block p-2 text-gray-700 rounded-lg hover:bg-rose-200 transition-colors">
+        📝 Notas
+      </a>
+      <a routerLink="/calendario" routerLinkActive="bg-white font-bold" [routerLinkActiveOptions]="{ exact: false }"
+         class="block p-2 text-gray-700 rounded-lg hover:bg-rose-200 transition-colors">
+        📅 Calendario
+      </a>
+      <a routerLink="/proyecto" routerLinkActive="bg-white font-bold" [routerLinkActiveOptions]="{ exact: false }"
+         class="block p-2 text-gray-700 rounded-lg hover:bg-rose-200 transition-colors">
+        📂 Proyectos
+      </a>
+    </nav>
+  </aside>
 
-            <a routerLink="/notas" routerLinkActive="bg-white font-bold" class="rounded p-2 hover:bg-pink-200"
-                [routerLinkActiveOptions]="{ exact: true }">📝 Notas</a>
-
-            <a routerLink="/calendario" routerLinkActive="bg-white font-bold" class="rounded p-2 hover:bg-pink-200"
-                [routerLinkActiveOptions]="{ exact: true }">📅 Calendario</a>
-
-            <a routerLink="/proyectos" routerLinkActive="bg-white font-bold" class="rounded p-2 hover:bg-pink-200"
-                [routerLinkActiveOptions]="{ exact: true }">📁 Proyectos</a>
-        </nav>
-    </aside> <!-- Content -->
-    <main class="flex-1 p-8 overflow-y-auto"> <router-outlet></router-outlet> </main>
+  <!-- Main content -->
+  <main class="flex-1 p-6 overflow-y-auto">
+    <router-outlet></router-outlet>
+  </main>
 </div>

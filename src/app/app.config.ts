@@ -6,7 +6,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideToastr, ToastrModule } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
 export const appConfig: ApplicationConfig = {
@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
      importProvidersFrom(BrowserModule,ToastrModule.forRoot()),
      provideToastr(),
      provideAnimations(),  
-     importProvidersFrom(FormsModule,
+     importProvidersFrom(FormsModule,ReactiveFormsModule, 
       FullCalendarModule
      )
     ]
