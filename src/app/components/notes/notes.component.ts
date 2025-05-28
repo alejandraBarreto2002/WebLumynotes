@@ -20,6 +20,7 @@ export class NotesComponent implements OnInit {
   showForm = false;
   mensaje = '';
 
+  userId = 'usuario1';
   constructor(private noteService: NoteService) {}
 
   ngOnInit(): void {
@@ -31,14 +32,20 @@ export class NotesComponent implements OnInit {
     this.noteService.getNotes().subscribe(data => this.notes = data);
   }
 
-  loadStatistics(): void {
-    this.noteService.getStatistics().subscribe(data => {
+loadStatistics(): void {
+  this.noteService.getStatistics().subscribe({
+    next: data => {
       this.totalNotes = data.totalNotes;
-    });
-  }
+    },
+    error: err => {
+      console.error('Error cargando estadísticas:', err);
+    }
+  });
+}
 
-saveNote(): void {
-  this.note.userId = 'usuario1'; // Reemplazar por el ID real del usuario
+
+  saveNote(): void {
+    this.note.userId = this.userId;  // Reemplazar por el ID real del usuario
 
   if (this.editing && this.note._id) {
     this.noteService.updateNote(this.note._id, this.note).subscribe(() => {

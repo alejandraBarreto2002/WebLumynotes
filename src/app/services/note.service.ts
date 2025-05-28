@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 
 export interface Note {
@@ -11,31 +13,41 @@ export interface Note {
 
 @Injectable({ providedIn: 'root' })
 export class NoteService {
-  private apiUrl = 'http://localhost:3000/api/notes';
+  private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getNotes(): Observable<Note[]> {
-    return this.http.get<Note[]>(this.apiUrl);
+   private getAuthHeaders() {
+    const token = this.authService.getToken();
+    return {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${token}`,
+      }),
+    };
   }
 
-  getNoteById(id: string): Observable<Note> {
-    return this.http.get<Note>(`${this.apiUrl}/${id}`);
+  getNotes(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/notes`, this.getAuthHeaders());
   }
 
-  createNote(note: Note): Observable<Note> {
-    return this.http.post<Note>(this.apiUrl, note);
+  createNote(note: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/notes`, note, this.getAuthHeaders());
   }
 
-  updateNote(id: string, note: Note): Observable<Note> {
-    return this.http.put<Note>(`${this.apiUrl}/${id}`, note);
+  updateNote(id: string, data: Note): Observable<Note> {
+  return this.http.put<Note>(`${this.apiUrl}/notes/${id}`, data, this.getAuthHeaders());
   }
 
-  deleteNote(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteNote(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/notes/${id}`, this.getAuthHeaders());
   }
 
-  getStatistics(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/statistics`);
-  }
+
+getStatistics(): Observable<any> {
+  const token = localStorage.getItem('token'); // o donde lo estés guardando
+
+  return this.http.get(`${this.apiUrl}/statistics`, {
+
+  });
+}
 }

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { NotesComponent } from './components/notes/notes.component';
+import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
@@ -15,7 +16,7 @@ export const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
-      { path: 'home', redirectTo: 'notes', pathMatch: 'full' },
+      { path: 'home', component: HomeComponent },
       { path: 'notes', component: NotesComponent },
       { path: 'calendario', component: TasksComponent },
       { path: 'proyecto', component: TasksComponent },

@@ -1,37 +1,52 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private api = 'http://localhost:3000/api/user';
 
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
-
-  login(data: any): Observable<any> {
-    return this.http.post(`${this.api}/login`, data);
+  register(user: { username: string; password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/users/register`, user);
   }
 
-  register(data: any): Observable<any> {
-    return this.http.post(`${this.api}/register`, data);
+login(user: { email: string; password: string }): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/users/login`, user).pipe(
+    tap((response) => {
+      this.saveToken(response.token); // ya lo tenías
+      localStorage.setItem('userId', response.user.id); // 👉 ESTO ES LO NUEVO
+    })
+  );
+}
+
+  saveToken(token: string) {
+    localStorage.setItem('token', token);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+    isLoggedIn(): boolean {
+    return this.isAuthenticated();
   }
 
   getProfile(): Observable<any> {
-    const headers = new HttpHeaders().set('Authorization', this.getToken());
-    return this.http.get(`${this.api}/profile/me`, { headers });
+    return this.http.get(`${this.apiUrl}/users/profile`);  // Cambia la ruta según tu API
   }
 
   updateProfile(data: any): Observable<any> {
-    const headers = new HttpHeaders().set('Authorization', this.getToken());
-    const id = localStorage.getItem('userId'); // o pásalo por props
-    return this.http.put(`${this.api}/${id}`, data, { headers });
-  }
-
-  getToken(): string {
-    return localStorage.getItem('token') || '';
-  }
-
-  isLoggedIn(): boolean {
-    return !!this.getToken();
+  const userId = localStorage.getItem('userId'); // 👈 Traes el ID
+  return this.http.put(`${this.apiUrl}/users/${userId}`, data);
   }
 }
