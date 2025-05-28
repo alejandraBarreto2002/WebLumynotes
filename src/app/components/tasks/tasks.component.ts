@@ -30,14 +30,14 @@ tasks: any[] = [];
   }
 
   loadTasks() {
-    this.taskService.getTasks(this.newTask.userId).subscribe(data => {
+    this.taskService.getTasks().subscribe(data => {
       this.tasks = data;
     });
   }
 
   addTask() {
     if (!this.newTask.title) return;
-    this.taskService.createTask(this.newTask).subscribe(() => {
+    this.taskService.createTask().subscribe(() => {
       this.newTask.title = '';
       this.newTask.description = '';
       this.newTask.dueDate = '';
@@ -64,7 +64,7 @@ tasks: any[] = [];
   showForm = false;
   onDateClick(arg: any) {
     const clickedDate = arg.dateStr;
-    this.taskService.getTasks(this.newTask.userId).subscribe(data => {
+    this.taskService.getTasks().subscribe(data => {
       this.tasks = data.filter((t: any) =>
         t.dueDate && t.dueDate.startsWith(clickedDate)
       );
